@@ -1,14 +1,65 @@
 import { Link } from 'react-router-dom'
 import { AnimateOnChange } from 'react-animation'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { CartContext } from 'contexts/CartContext'
 import { AuthContext } from 'contexts/AuthContext'
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import { MailOutlined, NotificationAdd, Storefront } from '@mui/icons-material'
+import { Badge, IconButton, Menu, MenuItem } from '@mui/material'
+import { Box } from '@mui/system'
 
 const Header = () => {
   const { getTotalQuantity } = useContext(CartContext)
   const { me } = useContext(AuthContext)
   const totalQuantity = getTotalQuantity()
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
+
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null)
+  }
+
+  const mobileMenuId = 'primary-search-account-menu-mobile'
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem>
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <Badge badgeContent={4} color="error">
+            <MailOutlined />
+          </Badge>
+        </IconButton>
+        <p>Messages</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton
+          size="large"
+          aria-label="show 17 new notifications"
+          color="inherit"
+        >
+          <Badge badgeContent={17} color="error">
+            <NotificationAdd />
+          </Badge>
+        </IconButton>
+        <p>Notifications</p>
+      </MenuItem>
+    </Menu>
+  )
+
   return (
     <>
       <header className="navbar navbar-expand-md navbar-light d-print-none">
@@ -23,15 +74,9 @@ const Header = () => {
           </button>
           <h1 className="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
             <Link to="/">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxaR0g7gpULqqHqYQjrOuFPEzjgsKICQQSJEdZoFnwv-SR6DzNNn8Ba5K-x36tu6oMnV8&usqp=CAU"
-                width="110"
-                height="32"
-                alt="Tabler"
-                className="navbar-brand-image px-2"
-              />
+              <Storefront />
             </Link>
-            Toko React
+            Anjar Bakery
           </h1>
           <div className="navbar-nav flex-row order-md-last">
             {me && (
@@ -71,7 +116,28 @@ const Header = () => {
                 </Link>
               </div>
             )}
-
+            <Box sx={{ flexGrow: 1 }} />
+            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              <IconButton
+                size="large"
+                aria-label="show 4 new mails"
+                color="inherit"
+              >
+                <Badge badgeContent={4} color="error">
+                  <MailOutlined />
+                </Badge>
+              </IconButton>
+              <IconButton
+                size="large"
+                aria-label="show 17 new notifications"
+                color="inherit"
+              >
+                <Badge badgeContent={17} color="error">
+                  <NotificationAdd />
+                </Badge>
+              </IconButton>
+              {renderMobileMenu}
+            </Box>
             <div className="nav-item d-none d-md-flex me-3">
               <div className="btn-list">
                 {!me && (
