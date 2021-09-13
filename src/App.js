@@ -11,6 +11,7 @@ const Account = React.lazy(() => import('./Account'))
 const Carts = React.lazy(() => import('./Carts'))
 const ProductDetail = React.lazy(() => import('./ProductDetail'))
 const Login = React.lazy(() => import('./Login'))
+const Notifications = React.lazy(() => import('./Notifications'))
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
               <Route exact path="/transactions" component={Transactions} />
               <Route exact path="/account" component={Account} />
               <Route exact path="/carts" component={Carts} />
+              <Route exact path="/notifications" component={Notifications} />
               <Route exact path="/login" component={Login} />
             </Suspense>
           </Layout>
